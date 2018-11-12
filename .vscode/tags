@@ -1,0 +1,60 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+FILEEND	../PPTmaker\template_of_converter.py	/^FILEEND=''$/;"	kind:variable	line:18
+FILFHEAD	../PPTmaker\template_of_converter.py	/^FILFHEAD=''$/;"	kind:variable	line:17
+_encoding	../EngCulture\AmericanScenicSpots\mdppt.py	/^    _encoding=sys.argv[2]$/;"	kind:variable	line:71
+_encoding	../EngCulture\AmericanScenicSpots\mdppt.py	/^_encoding="utf-8"$/;"	kind:variable	line:17
+_encoding	../PPTmaker\mdppt.py	/^    _encoding=sys.argv[2]$/;"	kind:variable	line:71
+_encoding	../PPTmaker\mdppt.py	/^_encoding="utf-8"$/;"	kind:variable	line:17
+_encoding	../PPTmaker\template_of_converter.py	/^    _encoding=sys.argv[2]$/;"	kind:variable	line:65
+_encoding	../PPTmaker\template_of_converter.py	/^_encoding="utf-8"$/;"	kind:variable	line:12
+add	../EngCulture\AmericanScenicSpots\mdppt.py	/^def add(addon):$/;"	kind:function	line:22
+add	../PPTmaker\mdppt.py	/^def add(addon):$/;"	kind:function	line:22
+add	../PPTmaker\template_of_converter.py	/^def add(addon):$/;"	kind:function	line:21
+command	../EngCulture\AmericanScenicSpots\mdppt.py	/^command="xcopy reveal.js .\\\\"+file_to_open+"_ppt"+" \/S \/Y"$/;"	kind:variable	line:185
+command	../PPTmaker\mdppt.py	/^command="xcopy reveal.js .\\\\"+file_to_open+"_ppt"+" \/S \/Y"$/;"	kind:variable	line:185
+command2	../EngCulture\AmericanScenicSpots\mdppt.py	/^command2="xcopy "+outputfilename+" "+".\\\\"+file_to_open+"_ppt"+" \/Y"$/;"	kind:variable	line:187
+command2	../PPTmaker\mdppt.py	/^command2="xcopy "+outputfilename+" "+".\\\\"+file_to_open+"_ppt"+" \/Y"$/;"	kind:variable	line:187
+convertline	../EngCulture\AmericanScenicSpots\mdppt.py	/^def convertline(line):$/;"	kind:function	line:27
+convertline	../PPTmaker\mdppt.py	/^def convertline(line):$/;"	kind:function	line:27
+convertline	../PPTmaker\template_of_converter.py	/^def convertline(line):$/;"	kind:function	line:26
+file	../EngCulture\AmericanScenicSpots\mdppt.py	/^file=open(file_to_open,encoding=_encoding)$/;"	kind:variable	line:78
+file	../PPTmaker\mdppt.py	/^file=open(file_to_open,encoding=_encoding)$/;"	kind:variable	line:78
+file	../PPTmaker\template_of_converter.py	/^file=open(file_to_open,encoding=_encoding)$/;"	kind:variable	line:71
+file_to_open	../EngCulture\AmericanScenicSpots\mdppt.py	/^file_to_open="1.md"$/;"	kind:variable	line:16
+file_to_open	../PPTmaker\mdppt.py	/^file_to_open="1.md"$/;"	kind:variable	line:16
+file_to_open	../PPTmaker\template_of_converter.py	/^    file_to_open=sys.argv[1]$/;"	kind:variable	line:59
+file_to_open	../PPTmaker\template_of_converter.py	/^file_to_open="note.md"$/;"	kind:variable	line:11
+insection	../EngCulture\AmericanScenicSpots\mdppt.py	/^insection=[0]$/;"	kind:variable	line:15
+insection	../PPTmaker\mdppt.py	/^insection=[0]$/;"	kind:variable	line:15
+insection	../PPTmaker\template_of_converter.py	/^insection=[0]$/;"	kind:variable	line:10
+line	../EngCulture\AmericanScenicSpots\mdppt.py	/^    line =file.readline()$/;"	kind:variable	line:140
+line	../PPTmaker\mdppt.py	/^    line =file.readline()$/;"	kind:variable	line:140
+line	../PPTmaker\template_of_converter.py	/^    line =file.readline()$/;"	kind:variable	line:88
+mdppt.py	../EngCulture\AmericanScenicSpots\mdppt.py	1;"	kind:file	line:1
+mdppt.py	../PPTmaker\mdppt.py	1;"	kind:file	line:1
+name	../PPTmaker\template_of_converter.py	/^    name="Augustus Wang"$/;"	kind:variable	line:78
+name	../PPTmaker\template_of_converter.py	/^name=input("name:")$/;"	kind:variable	line:74
+output	../EngCulture\AmericanScenicSpots\mdppt.py	/^output=open(outputfilename,'w',encoding=outputencoding)$/;"	kind:variable	line:174
+output	../PPTmaker\mdppt.py	/^output=open(outputfilename,'w',encoding=outputencoding)$/;"	kind:variable	line:174
+output	../PPTmaker\template_of_converter.py	/^output=open(outputfilename,'w',encoding=outputencoding)$/;"	kind:variable	line:97
+outputencoding	../EngCulture\AmericanScenicSpots\mdppt.py	/^outputencoding="utf-8"$/;"	kind:variable	line:19
+outputencoding	../PPTmaker\mdppt.py	/^outputencoding="utf-8"$/;"	kind:variable	line:19
+outputencoding	../PPTmaker\template_of_converter.py	/^outputencoding="utf-8"$/;"	kind:variable	line:14
+outputfilename	../EngCulture\AmericanScenicSpots\mdppt.py	/^outputfilename=file_to_open+".html"$/;"	kind:variable	line:76
+outputfilename	../PPTmaker\mdppt.py	/^outputfilename=file_to_open+".html"$/;"	kind:variable	line:76
+outputfilename	../PPTmaker\template_of_converter.py	/^outputfilename="filename"$/;"	kind:variable	line:13
+paper	../EngCulture\AmericanScenicSpots\mdppt.py	/^paper=""$/;"	kind:variable	line:14
+paper	../PPTmaker\mdppt.py	/^paper=""$/;"	kind:variable	line:14
+paper	../PPTmaker\template_of_converter.py	/^paper=""$/;"	kind:variable	line:9
+subprocess	../EngCulture\AmericanScenicSpots\mdppt.py	/^import subprocess$/;"	kind:namespace	line:9
+subprocess	../PPTmaker\mdppt.py	/^import subprocess$/;"	kind:namespace	line:9
+subprocess	../PPTmaker\template_of_converter.py	/^import subprocess$/;"	kind:namespace	line:4
+sys	../EngCulture\AmericanScenicSpots\mdppt.py	/^import sys$/;"	kind:namespace	line:10
+sys	../PPTmaker\mdppt.py	/^import sys$/;"	kind:namespace	line:10
+sys	../PPTmaker\template_of_converter.py	/^import sys$/;"	kind:namespace	line:5
+template_of_converter.py	../PPTmaker\template_of_converter.py	1;"	kind:file	line:1

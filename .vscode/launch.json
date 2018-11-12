@@ -1,0 +1,144 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(g++) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${file}.exe",
+            // "args": ["-e","-3","-b"],
+            // "args": ["-e","-3","-w"],
+            // "args": ["-test"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "G:/mingw/bin/gdb.exe",
+            "preLaunchTask": "g++",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Python Module",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": true,
+            "pythonPath": "${config:python.pythonPath}",
+            "module": "module.name",
+            "cwd": "${workspaceFolder}",
+            "env": {},
+            "envFile": "${workspaceFolder}/.env",
+            "debugOptions": [
+                "RedirectOutput"
+            ]
+        },
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${file}.exe",
+            // "args": ["-e","-3","-b"],
+            // "args": ["-e","-3","-w"],
+            // "args": ["-test"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "G:/mingw/bin/gdb.exe",
+            "preLaunchTask": "gcc",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "AI-BLACK",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${file}.exe",
+            // "args": ["-e","-3","-b"],
+            "args": [
+                "-e",
+                "-3",
+                "-w"
+            ],
+            // "args": ["-test"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "G:/mingw/bin/gdb.exe",
+            "preLaunchTask": "gcc",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "AI-WHITE",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${file}.exe",
+            "args": [
+                "-e",
+                "-3",
+                "-b"
+            ],
+            // "args": ["-e","-3","-w"],
+            // "args": ["-test"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "G:/mingw/bin/gdb.exe",
+            "preLaunchTask": "gcc",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "TEST",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${file}.exe",
+            // "args": ["-e","-3","-b"],
+            // "args": ["-e","-3","-w"],
+            "args": [
+                "-test"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "G:/mingw/bin/gdb.exe",
+            "preLaunchTask": "gcc",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
