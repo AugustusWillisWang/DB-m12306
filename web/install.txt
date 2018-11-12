@@ -1,0 +1,142 @@
+1. install apache web server --------------------
+
+  1) install apache webserver packages 
+      $ sudo apt-get update
+      $ sudo apt-get install apache2
+
+     check it works:
+      visit URL 'http://localhost/' using firefox  
+
+    append ServerName 2 the configure file and then restart apache
+      $ sudo vim /etc/apache2/apache2.conf
+      append this line to the file:
+          ServerName localhost:80
+      $ sudo /etc/init.d/apache2 restart
+ 
+
+    tips:
+      1> apache2 config file @ /etc/apache2/apache2.conf
+      -> Line 109: default user and group 
+      -> Line 164: default root directory is /var/www/
+
+      2> after modify the configure file and enable modules,
+      you need to restart apache2.
+      $ sudo /etc/init.d/apache2 restart
+      OR
+      $ sudo service apache2 restart
+
+
+
+  2) CGI module  
+
+     enable cgi module and restart apache
+      $ sudo a2enmod cgi
+      $ sudo /etc/init.d/apache2 restart
+      
+     cgi config file @ /etc/apache2/conf-enabled/serve-cgi-bin.conf 
+      $ sudo vim /etc/apache2/conf-enabled/serve-cgi-bin.conf
+
+     change the cgi program storage path @ line 11
+     from  
+                ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+                <Directory "/usr/lib/cgi-bin">
+                        AllowOverride None
+                        Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+                        Require all granted
+                </Directory>
+     to 
+                ScriptAlias /cgi-bin/ /var/www/cgi-bin/
+                <Directory /var/www/cgi-bin/>
+                        Options Indexes FollowSymLinks MultiViews ExecCGI
+                        AllowOverride None
+                        Order allow,deny
+                        allow from all
+                        AddHandler cgi-script .exe .pl .cgi
+                </Directory>
+
+
+     restart apache2 and check it works:
+      $ sudo /etc/init.d/apache2 restart
+      $ sudo mkdir /var/www/cgi-bin 
+      $ sudo vim /var/www/cgi-bin/first.pl
+      $ sudo chmod +x /var/www/cgi-bin/first.pl
+      $ sudo cat /var/www/cgi-bin/first.pl
+        #!/usr/bin/perl
+        print "Content-type: text/html\n\n";
+        print "Hello, World.";
+      then visit URL 'http://localhost/cgi-bin/first.pl' using firefox  
+
+
+  3) install php + apache webserver related packages, then restart apache2 
+      $ sudo apt-get install php5 libapache2-mod-php5 php5-pgsql
+      $ sudo /etc/init.d/apache2 restart
+
+     check it works: 
+      edit the file @ /var/www/html/info.php
+      $ sudo cat /var/www/html/info.php 
+      <?php phpinfo(); ?>
+
+      then visit URL 'http://localhost/info.php' using firefox  
+
+
+
+2. config postgresql --------------------
+  1) set dbms's password in postgresql (new password is dbms)
+      $ sudo su
+      # su  postgres   
+      $ psql -U postgres   
+      postgres=# ALTER USER dbms WITH PASSWORD 'dbms';
+      postgres=# \q  
+
+  2) config dbms login attributes 
+      add login config to the file @ /etc/postgresql/9.3/main/pg_hba.conf
+      # vim /etc/postgresql/9.3/main/pg_hba.conf
+
+      -> # TYPE  DATABASE        USER            ADDRESS                 METHOD
+      -> local   all             dbms                                    md5
+
+      restart the service 
+      # service postgresql restart
+
+  
+  3) check password works
+      # psql -d dbms -U dbms -W
+      After type the password, which is dbms, you should login postgresql as dbms.
+
+  
+
+3. using php visit postgresql --------------------
+  tutorial         @ http://php.net/manual/zh/book.pgsql.php
+  connection usage @ http://php.net/manual/zh/function.pg-connect.php
+
+  usage demo       @ http://php.net/manual/zh/pgsql.examples-basic.php
+  save this demo   @  /var/www/html/db.php
+
+  modify :
+    Line 3 : $dbconn = pg_connect("dbname=tpch user=dbms password=dbms")
+    Line 7 : $query = 'SELECT * FROM nation';
+    
+  then try URL 'http://localhost/db.php' in firefox
+  After  1-2 minutes, firefox shows the query result as a html table.
+
+
+
+
+
+
+
+4. install cgicc lib 
+  Download cgicc
+   $ wget ftp://ftp.gnu.org/gnu/cgicc/cgicc-3.2.16.tar.gz
+   $ tar zxvf cgicc-3.2.16.tar.gz
+   $ cd cgicc-3.2.16/
+
+  Read the INSTALL and README file to learn how to config and use:
+   $ ./configure
+   $ sudo su
+   # make  
+   # make install 
+
+  Then you can use cgicc: the program need to be compiled with /usr/lib/libcgicc.a
+  See the example @ /home/dbms/Lab2/cgi/code
+  
