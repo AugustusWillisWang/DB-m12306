@@ -9,17 +9,17 @@ Database lab2: 火车订票系统模拟.
 
 - [1. 综述](#1-综述)
 - [2. 数据库逻辑](#2-数据库逻辑)
-    - [2.1. Brief DB-m12306 Schema](#21-brief-db-m12306-schema)
+    - [2.1. Brief Schema](#21-brief-schema)
     - [2.2. ER图](#22-er图)
     - [2.3. 关系模式](#23-关系模式)
-        - [2.3.1. 列车T_](#231-列车t_)
-        - [2.3.2. 列车时刻表TT_XXX](#232-列车时刻表tt_xxx)
-        - [2.3.3. 车次AT_](#233-车次at_)
-        - [2.3.4. 可用座位表ES_XXX](#234-可用座位表es_xxx)
-        - [2.3.5. 城市C_](#235-城市c_)
-        - [2.3.6. 车站S_](#236-车站s_)
-        - [2.3.7. 乘客P_](#237-乘客p_)
-        - [2.3.8. 订单O_](#238-订单o_)
+        - [2.3.1. Train 列车T_](#231-train-列车t_)
+        - [2.3.2. Train_Table 列车时刻表TT_](#232-train_table-列车时刻表tt_)
+        - [2.3.3. Empty_Seat 可用座位表ES_](#233-empty_seat-可用座位表es_)
+        - [2.3.4. Station 车站S_](#234-station-车站s_)
+        - [2.3.5. Passenger 乘客P_](#235-passenger-乘客p_)
+        - [2.3.6. Order 订单O_](#236-order-订单o_)
+        - [2.3.7. Station_Connection 车站联通表SC_](#237-station_connection-车站联通表sc_)
+        - [2.3.8. City_Connection 城市联通表CC_](#238-city_connection-城市联通表cc_)
     - [2.4. 范式细化，分析](#24-范式细化分析)
 - [3. 查询与刷新函数](#3-查询与刷新函数)
     - [3.1. 写出SQL查询语句的模板（如果有参数，类似TPCH写:1,:2等）](#31-写出sql查询语句的模板如果有参数类似tpch写12等)
@@ -47,7 +47,7 @@ Database lab2: 火车订票系统模拟.
 
 ***
 
-## 2.1. Brief DB-m12306 Schema
+## 2.1. Brief Schema
 
 ```mermaid
 graph TD;
@@ -97,101 +97,101 @@ O_日期-->AT_日期
 
 ## 2.3. 关系模式
 
-### 2.3.1. 列车T_
+Table Layouts 如下:
 
-列名|数据种类|附注
--|-|-
-车次号|int|identifier
-始发站|char(20)|?
-中间经停站|?|?
-终点站|char(20)|?
-每站的发车时间和到达时间|?|?
-硬座票价|decimal|?
-软座票价|decimal|?
-硬卧上铺票价|decimal|?
-硬卧中铺票价|decimal|?
-硬卧下铺票价|decimal|?
-软卧上铺票价|decimal|?
-软卧下铺票价|decimal|?
-硬座座位数|int|初始化时置为5
-软座座位数|int|初始化时置为5
-硬卧上铺座位数|int|初始化时置为5
-硬卧中铺座位数|int|初始化时置为5
-硬卧下铺座位数|int|初始化时置为5
-软卧上铺座位数|int|初始化时置为5
-软卧下铺座位数|int|初始化时置为5
-列车时刻表|?|?
+### 2.3.1. Train 列车T_
 
-### 2.3.2. 列车时刻表TT_XXX
+列名|内容|数据种类|附注
+-|-|-|-
+T_tid|车次号|char(10)|identifier
+T_start_station|始发站|char(20)|
+T_end_station|终点站|char(20)|
 
-列名|数据种类|附注
--|-|-
-车站id|int|identifier
-到达时间|date|
-发车时间|date|
-硬座票价|decimal|?
-软座票价|decimal|?
-硬卧上铺票价|decimal|?
-硬卧中铺票价|decimal|?
-硬卧下铺票价|decimal|?
-软卧上铺票价|decimal|?
-软卧下铺票价|decimal|?
+### 2.3.2. Train_Table 列车时刻表TT_
 
-### 2.3.3. 车次AT_
+列名|内容|数据种类|附注
+-|-|-|-
+TT_tid|车次号|char(10)|identifier
+TT_depart_station|出发车站id|int|identifier
+TT_arrive_station|到达车站id|int|identifier
+TT_depart_time|发车时间|date|
+TT_arrive_time|到达时间|date|
+TT_price_yz|硬座票价|decimal|
+TT_price_rz|软座票价|decimal|
+TT_price_yws|硬卧上铺票价|decimal|
+TT_price_ywz|硬卧中铺票价|decimal|
+TT_price_ywx|硬卧下铺票价|decimal|
+TT_price_rws|软卧上铺票价|decimal|
+TT_price_rwx|软卧下铺票价|decimal|
 
-列名|数据种类|附注
--|-|-
-车次号|int|identifier
-发车日期|date|identifer
-可用座位表|?|?
+### 2.3.3. Empty_Seat 可用座位表ES_
 
-### 2.3.4. 可用座位表ES_XXX
-
-列名|数据种类|附注
--|-|-
-车站id|int|identifier
-硬座剩余座位数|int|初始化时置为5
-软座剩余座位数|int|初始化时置为5
-硬卧上铺剩余座位数|int|初始化时置为5
-硬卧中铺剩余座位数|int|初始化时置为5
-硬卧下铺剩余座位数|int|初始化时置为5
-软卧上铺剩余座位数|int|初始化时置为5
-软卧下铺剩余座位数|int|初始化时置为5
+列名|内容|数据种类|附注
+-|-|-|-
+ES_tid|车次号|char(10)|identifier
+ES_current_sid|当前车站id|int|identifier
+ES_next_sid|下一个车站id|int|identifier
+ES_date|日期|date|identifier
+ES_left_yz|硬座剩余座位数|int|初始化时置为5
+ES_left_rz|软座剩余座位数|int|初始化时置为5
+ES_left_yws|硬卧上铺剩余座位数|int|初始化时置为5
+ES_left_ywz|硬卧中铺剩余座位数|int|初始化时置为5
+ES_left_ywx|硬卧下铺剩余座位数|int|初始化时置为5
+ES_left_rws|软卧上铺剩余座位数|int|初始化时置为5
+ES_left_rwx|软卧下铺剩余座位数|int|初始化时置为5
 
 注意: 终点站的剩余座位数无用
 
-### 2.3.5. 城市C_
+<!-- ### 2.3.5. 城市C_
 
 列名|数据种类|附注
 -|-|-
-城市名|char(20)|identifier
+城市名|char(20)|identifier -->
 
-### 2.3.6. 车站S_
+### 2.3.4. Station 车站S_
 
-列名|数据种类|附注
--|-|-
-车站id|int|identifier
-车站名|char(20)|
-城市名|char(20)|
+列名|内容|数据种类|附注
+-|-|-|-
+S_sid|车站id|int|identifier, unique
+S_sname|车站名|char(20)|
+S_cname|城市名|char(20)|
 
-### 2.3.7. 乘客P_
+### 2.3.5. Passenger 乘客P_
 
-列名|数据种类|附注
--|-|-
-身份证号|int|identifier, unique
-手机号|int|unique
-姓名|char(20)|
-用户名|char(30)|
-信用卡|int|
+列名|内容|数据种类|附注
+-|-|-|-
+P_pid|身份证号|int|identifier, unique
+P_phone|手机号|int|unique
+P_pname|姓名|char(20)|
+P_uname|用户名|char(30)|
+P_credit_card|信用卡|int|
 
-### 2.3.8. 订单O_
+### 2.3.6. Order 订单O_
 
-列名|数据种类|附注
--|-|-
-订单号|int|identifier
-身份证号|int|
-日期|date|
-车次序号|int|
+列名|内容|数据种类|附注
+-|-|-|-
+O_oid|订单号|int|identifier
+O_pid|身份证号|int|
+O_date|日期|date|
+O_tid|车次序号|char(10)|
+O_start_sid|始发站|int|
+O_arrive_sid|到达站|int|
+
+### 2.3.7. Station_Connection 车站联通表SC_
+
+列名|内容|数据种类|附注
+-|-|-|-
+SC_depart_sid|出发车站|int|identifier
+SC_arrive_sid|到达车站|int|identifier
+SC_tid|列车号|int|identifier
+
+### 2.3.8. City_Connection 城市联通表CC_
+
+列名|内容|数据种类|附注
+-|-|-|-
+CC_depart_city|出发城市|int|identifier
+CC_arrive_city|到达城市|int|identifier
+CC_tid|列车号|int|identifier
 
 ## 2.4. 范式细化，分析
 
