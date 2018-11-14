@@ -20,6 +20,7 @@ Database lab2: 火车订票系统模拟.
         - [2.3.6. Order 订单O_](#236-order-订单o_)
         - [2.3.7. Station_Connection 车站联通表SC_](#237-station_connection-车站联通表sc_)
         - [2.3.8. City_Connection 城市联通表CC_](#238-city_connection-城市联通表cc_)
+        - [ID_Station_City 车站城市对照表ISC_](#id_station_city-车站城市对照表isc_)
     - [2.4. 范式细化，分析](#24-范式细化分析)
 - [3. 查询与刷新函数](#3-查询与刷新函数)
     - [3.1. 写出SQL查询语句的模板（如果有参数，类似TPCH写:1,:2等）](#31-写出sql查询语句的模板如果有参数类似tpch写12等)
@@ -192,6 +193,12 @@ SC_tid|列车号|int|identifier
 CC_depart_city|出发城市|int|identifier
 CC_arrive_city|到达城市|int|identifier
 CC_tid|列车号|int|identifier
+
+***
+
+原始数据的Table, Layouts如下:
+
+### ID_Station_City 车站城市对照表ISC_
 
 ## 2.4. 范式细化，分析
 
