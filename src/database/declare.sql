@@ -15,7 +15,7 @@ CREATE TABLE Train(
     T_end_sid int not null,
     primary key (T_tid),
     foreign key (T_start_sid) references ID_Station_City(ISC_sid),
-    foreign key (T_end_sid) references ID_Station_City(ISC_sid),
+    foreign key (T_end_sid) references ID_Station_City(ISC_sid)
 
 );
 
