@@ -11,8 +11,8 @@ CREATE TABLE ID_Station_City(
 
 CREATE TABLE Train(
     T_tid char(10) not null,
-    T_start_sid int not null,
-    T_end_sid int not null,
+    T_start_sid int,
+    T_end_sid int,
     primary key (T_tid),
     foreign key (T_start_sid) references ID_Station_City(ISC_sid),
     foreign key (T_end_sid) references ID_Station_City(ISC_sid)
@@ -21,10 +21,10 @@ CREATE TABLE Train(
 
 CREATE TABLE Train_Table(
     TT_tid char(10) not null,
-    TT_depart_sid int not null,
-    TT_arrive_sid int not null,
+    TT_sid int not null,
     TT_depart_time time not null,
     TT_arrive_time time not null,
+    TT_time int,
     TT_price_yz decimal not null,
     TT_price_rz decimal not null,
     TT_price_yws decimal not null,
@@ -32,17 +32,16 @@ CREATE TABLE Train_Table(
     TT_price_ywx decimal not null,
     TT_price_rws decimal not null,
     TT_price_rwx decimal not null,
-    primary key (TT_tid),
+    primary key (TT_tid,TT_sid),
     foreign key (TT_tid) references Train(T_tid),
-    foreign key (TT_depart_sid) references ID_Station_City(ISC_sid),
-    foreign key (TT_arrive_sid) references ID_Station_City(ISC_sid)
+    foreign key (TT_sid) references ID_Station_City(ISC_sid)
 );
 
 
 CREATE TABLE Empty_Seat(
     ES_tid char(10),
     ES_current_sid int not null,
-    ES_next_sid int not null,
+    ES_next_sid int,
     ES_date date not null,
     ES_left_yz int not null,
     ES_left_rz int not null,
@@ -94,37 +93,42 @@ CREATE TABLE Orders(
     foreign key (O_start_sid1) references ID_Station_City(ISC_sid),
     foreign key (O_arrive_sid1) references ID_Station_City(ISC_sid),
     foreign key (O_start_sid2) references ID_Station_City(ISC_sid),
-    foreign key (O_arrive_sid2) references ID_Station_City(ISC_sid),
+    foreign key (O_arrive_sid2) references ID_Station_City(ISC_sid)
 
 );
 
 CREATE TABLE Station_Connection(
     SC_depart_sid int not null,
     SC_arrive_sid int not null,
-    SC_tid int not null,
+    SC_tid char(10) not null,
     primary key (SC_depart_sid,SC_arrive_sid,SC_tid),
     foreign key (SC_depart_sid) references ID_Station_City(ISC_sid),
     foreign key (SC_arrive_sid) references ID_Station_City(ISC_sid),
-    foreign key (SC_tid) references Train(T_tid),
+    foreign key (SC_tid) references Train(T_tid)
 );
 
 CREATE TABLE City_Connection(
     CC_depart_city int not null,
     CC_arrive_city int not null,
-    CC_tid int not null,
+    CC_tid char(10) not null,
     primary key (CC_depart_city,CC_arrive_city,CC_tid),
-    foreign key (SC_tid) references Train(T_tid)
+    foreign key (CC_tid) references Train(T_tid)
 );
 
 -- 导入站表
 
 -- https://www.postgresql.org/docs/9.2/sql-copy.html
 
--- COPY ID_Station_City FROM '/mnt/hgfs/DB-m12306/data/all-stations.txt' WITH DELIMITER ',' NULL AS '' CSV;
+COPY ID_Station_City FROM '/mnt/hgfs/DB-m12306/data/all-stations.txt' WITH DELIMITER ',' NULL AS '' CSV;
 
 --OK
 
 -- 导入每次列车信息
+
+COPY Train FROM '/mnt/hgfs/DB-m12306/data/train.csv' WITH DELIMITER ',' NULL AS '' CSV;
+
+COPY Train_Table FROM '/mnt/hgfs/DB-m12306/data/output.csv' WITH DELIMITER ',' NULL AS '' CSV;
+
 
 -- DROP TABLE ori_1095;
 

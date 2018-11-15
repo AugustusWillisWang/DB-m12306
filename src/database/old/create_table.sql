@@ -68,6 +68,7 @@ CREATE TABLE Train_Table(
     TT_arrive_station int,
     TT_depart_time time,
     TT_arrive_time time,
+    TT_time int,
     TT_price_yz decimal,
     TT_price_rz decimal,
     TT_price_yws decimal,
