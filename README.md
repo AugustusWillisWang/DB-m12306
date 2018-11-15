@@ -17,7 +17,7 @@ Database lab2: 火车订票系统模拟.
         - [2.3.3. Empty_Seat 可用座位表ES_](#233-empty_seat-可用座位表es_)
         - [2.3.4. Station 车站S_](#234-station-车站s_)
         - [2.3.5. Passenger 乘客P_](#235-passenger-乘客p_)
-        - [2.3.6. Order 订单O_](#236-order-订单o_)
+        - [2.3.6. Orders 订单O_](#236-orders-订单o_)
         - [2.3.7. Station_Connection 车站联通表SC_](#237-station_connection-车站联通表sc_)
         - [2.3.8. City_Connection 城市联通表CC_](#238-city_connection-城市联通表cc_)
         - [ID_Station_City 车站城市对照表ISC_](#id_station_city-车站城市对照表isc_)
@@ -113,8 +113,8 @@ T_end_station|终点站|char(20)|
 列名|内容|数据种类|附注
 -|-|-|-
 TT_tid|车次号|char(10)|identifier
-TT_depart_station|出发车站id|int|identifier
-TT_arrive_station|到达车站id|int|identifier
+TT_depart_sid|出发车站id|int|identifier
+TT_arrive_sid|到达车站id|int|identifier
 TT_depart_time|发车时间|date|
 TT_arrive_time|到达时间|date|
 TT_price_yz|硬座票价|decimal|
@@ -167,7 +167,7 @@ P_pname|姓名|char(20)|
 P_uname|用户名|char(30)|
 P_credit_card|信用卡|int|
 
-### 2.3.6. Order 订单O_
+### 2.3.6. Orders 订单O_
 
 列名|内容|数据种类|附注
 -|-|-|-
@@ -177,6 +177,7 @@ O_date|日期|date|
 O_tid|车次序号|char(10)|
 O_start_sid|始发站|int|
 O_arrive_sid|到达站|int|
+O_price|总票价|decimal
 
 ### 2.3.7. Station_Connection 车站联通表SC_
 
