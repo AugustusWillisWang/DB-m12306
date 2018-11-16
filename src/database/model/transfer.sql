@@ -70,15 +70,15 @@ SELECT PT_tid_ar ,PT_depart_sid,PT_depart_sid,PT_arrive_price_yz-PT_depart_price
 FROM price_time_de,price_time_ar 
 WHERE PT_tid_ar=PT_tid_de;
 
-select PT_tid ,PT_price_yz ,PT_time ,TT_depart_time 
-from price_time,Train_Table
-where TT_sid= PT_depart_sid_f and PT_tid=TT_tid 
-ORDER by PT_price_yz,PT_time,TT_depart_time;
+--select distinct PT_tid ,PT_price_yz ,PT_time ,TT_depart_time 
+--from price_time,Train_Table
+--where TT_sid= PT_depart_sid_f and PT_tid=TT_tid 
+--ORDER by PT_price_yz,PT_time,TT_depart_time;
 
-select PT_tid ,PT_price_yz ,PT_time ,TT_depart_time 
+select DISTINCT PT_tid ,PT_price_yz ,PT_time ,TT_depart_time 
 from price_time,Train_Table,Empty_Seat 
 where TT_sid= PT_depart_sid_f and PT_tid=TT_tid 
-and ES_date='2018-11-17' and ES_tid=PT_pid and ES_left_yz>0
+and ES_date='2018-11-17' and ES_tid=PT_tid and ES_left_yz>0
 ORDER by PT_price_yz,PT_time,TT_depart_time;
 
 
