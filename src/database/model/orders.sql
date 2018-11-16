@@ -70,3 +70,15 @@ VALUES(
 
 );
 
+-- 取消订单
+UPDATE Orders 
+SET O_valid=0 
+WHERE O_pid=%pid; 
+
+-- 直接生成新订单号
+SELECT COUNT(*)+1
+FROM ORDERS;
+
+-- 直接生成新用户号
+SELECT COUNT(*)+1
+FROM Passenger;
