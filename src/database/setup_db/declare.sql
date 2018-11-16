@@ -25,8 +25,8 @@ CREATE TABLE Train(
 CREATE TABLE Train_Table(
     TT_tid char(10) not null,
     TT_sid int not null,
-    TT_depart_time time not null,
     TT_arrive_time time not null,
+    TT_depart_time time not null,
     TT_time int,
     TT_price_yz decimal not null,
     TT_price_rz decimal not null,
