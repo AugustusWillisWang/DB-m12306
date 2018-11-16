@@ -41,19 +41,20 @@ CREATE TABLE Train_Table(
     foreign key (TT_sid) references ID_Station_City(ISC_sid)
 );
 
+-- DROP TABLE Empty_Seat;
 
 CREATE TABLE Empty_Seat(
     ES_tid char(10),
     ES_current_sid int not null,
     ES_next_sid int,
-    ES_date date not null,
-    ES_left_yz int not null,
-    ES_left_rz int not null,
-    ES_left_yws int not null,
-    ES_left_ywz int not null,
-    ES_left_ywx int not null,
-    ES_left_rws int not null,
-    ES_left_rwx int not null,
+    ES_date date default current_date,
+    ES_left_yz int not null default 5,
+    ES_left_rz int not null default 5,
+    ES_left_yws int not null default 5,
+    ES_left_ywz int not null default 5,
+    ES_left_ywx int not null default 5,
+    ES_left_rws int not null default 5,
+    ES_left_rwx int not null default 5,
     primary key (ES_tid,ES_current_sid,ES_date),
     foreign key (ES_current_sid) references ID_Station_City(ISC_sid),
     foreign key (ES_next_sid) references ID_Station_City(ISC_sid)
