@@ -47,7 +47,7 @@ CREATE TABLE Empty_Seat(
     ES_tid char(10),
     ES_current_sid int not null,
     ES_next_sid int,
-    ES_date date default current_date,
+    ES_date date default CURRENT_DATE,
     ES_left_yz int not null default 5,
     ES_left_rz int not null default 5,
     ES_left_yws int not null default 5,
@@ -61,11 +61,11 @@ CREATE TABLE Empty_Seat(
 );
 
 CREATE TABLE Passenger(
-    P_pid int,
-    P_phone int,
+    P_pid int unique,
+    P_phone bigint unique,
     P_pname char(20),
     P_uname char(30),
-    P_credit_card int,
+    P_credit_card bigint,
     primary key (P_pid)
 );
 
@@ -73,8 +73,12 @@ CREATE TABLE Orders(
     O_oid int not null,
     O_pid int not null,
 
+    O_order_date date not null default CURRENT_DATE,
+
     O_start_sid int not null,
     O_arrive_sid int not null,
+
+    O_price decimal not null,
 
     O_date1 date not null,
     O_time1 time not null,
@@ -88,7 +92,7 @@ CREATE TABLE Orders(
     O_start_sid2 int,
     O_arrive_sid2 int,
 
-    O_price decimal not null,
+    O_valid int default 1,
     primary key (O_oid),
     foreign key (O_pid) references Passenger(P_pid),
     foreign key (O_tid1) references Train(T_tid),
@@ -119,6 +123,14 @@ CREATE TABLE City_Connection(
     -- primary key (CC_depart_city,CC_arrive_city,CC_tid),
     foreign key (CC_tid) references Train(T_tid)
 );
+
+CREATE TABLE Global_Vars(
+    G_pid int default 0,
+    G_oid int default 0
+);
+
+INSERT INTO Global_Vars
+VALUES(0,0);
 
 -- 导入站表
 
