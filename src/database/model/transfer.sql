@@ -1,7 +1,8 @@
-select TT_tid,TT_sid,TT_arrive_time,TT_depart_time,TT_price_yz,TT_price_yws,
-TT_price_ywz,TT_price_ywx,TT_price_rz,TT_price_rws,TT_price_rwx,ES_date,ES_left_yz,
-ES_left_yws,ES_left_ywz,ES_left_ywx,ES_left_rz,ES_left_rws,ES_left_rwx from 
-Train_Table,Empty_Seat where TT_sid=ES_current_sid and TT_tid='G3' and ES_date='2018-11-17';
+select DISTINCT TT_tid,ISC_sname,TT_arrive_time,TT_depart_time,TT_time,TT_price_yz,
+--TT_price_yws,TT_price_ywz,TT_price_ywx,TT_price_rz,TT_price_rws,TT_price_rwx,
+ES_date,ES_left_yz
+--,ES_left_yws,ES_left_ywz,ES_left_ywx,ES_left_rz,ES_left_rws,ES_left_rwx
+ from Train_Table,Empty_Seat,ID_Station_City where TT_sid=ES_current_sid AND tt_sid=ISC_sid and TT_tid='G3' and ES_date='2018-11-17' ORDER by TT_depart_time;
 
 create table price_time_de (
     PT_tid_de char(10) ,
