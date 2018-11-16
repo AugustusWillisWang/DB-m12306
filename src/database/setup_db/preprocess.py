@@ -49,29 +49,30 @@ def prase_w(w):
     return result
 
 def prase_line(line, tid):
-        y = re.match(r'.+?\,\s*(.+?)\,\s*(.+?)\,\s*(.*?)\,.+?\,\s*(.*?)\,.*?\,\s*(.*?)\,\s*(.*?)\,\s*(.*?)$',line)
+        y = re.match(r'\s*(.+?)\,\s*(.+?)\,\s*(.+?)\,\s*(.*?)\,.+?\,\s*(.*?)\,.*?\,\s*(.*?)\,\s*(.*?)\,\s*(.*?)$',line)
             # \s*(.*?)\,\s*(.*?)\,',line)
             # r'.+?\,\s*(.+?)\,\s*(.+?)\,\s*(.+?)\,.+?\,\s*(.+?)\,\s*?\,\s*(.+)\,\s*(.+)\,',line)
         m = list(y.groups())
         result=[]
         #TT_tid char(10) not null,
         result.append(tid)
-        result.append(city_projection.sname_to_sid(m[0]))
-        if m[1]=='-':
-            result.append('0:00')
-        else:
-            result.append(m[1])
+        result.append(city_projection.sname_to_sid(m[1]))
         if m[2]=='-':
             result.append('0:00')
         else:
             result.append(m[2])
         if m[3]=='-':
-            result.append('0')
+            result.append('0:00')
         else:
             result.append(m[3])
-        result.extend(prase_z(m[4]))
-        result.extend(prase_w(m[5]))
-        result.extend(prase_z(m[6]))
+        if m[4]=='-':
+            result.append('0')
+        else:
+            result.append(m[4])
+        result.extend(prase_z(m[5]))
+        result.extend(prase_w(m[6]))
+        result.extend(prase_z(m[7]))
+        result.append(m[0])
 
         # print(result)
         return result
@@ -81,11 +82,7 @@ def prase_line(line, tid):
 def do_pre_process(ffile, filename):
     tid=str(re.match(r'(.+)\.csv',filename).group(1))
     print(tid)
-    writer2.writerow([tid,'0','0'])
-
-    # new_filename = "t_"+filename
-    # with open(new_filename, 'wb') as output:  # 打开方式还可以使用file对象
-        # writer = csv.writer(output)
+    rlist=[]
     first=1
     for row in ffile:
         if first:
@@ -94,7 +91,20 @@ def do_pre_process(ffile, filename):
             continue
         # INSERT INTO 表名称 VALUES (值1, 值2,....)
         # print(prase_line(row,tid))
-        writer.writerow(prase_line(row,tid))
+        res=prase_line(row,tid)
+        rlist.append(res)
+        writer.writerow(res)
+
+    rlen=len(rlist)
+    writer2.writerow([tid,rlist[0][1],rlist[rlen-1][1]])#tid,startsid,endsid
+    a=0
+    while a<rlen:
+        b=a+1
+        while b<rlen:
+            sswriter.writerow([rlist[a][1],rlist[b][1],tid])
+            ccwriter.writerow([city_projection.sid_to_cname(rlist[a][1]),city_projection.sid_to_cname(rlist[b][1]),tid])
+            b=b+1
+        a=a+1
 
 
 def prepare_write():
@@ -103,11 +113,24 @@ def prepare_write():
     # wf=open('output.csv','wb',encoding='utf-8')
     global writer
     writer = csv.writer(wf, delimiter=',')
+
     global wf2
     wf2=open('train.csv','w',newline='')
     # wf=open('output.csv','wb',encoding='utf-8')
     global writer2
     writer2 = csv.writer(wf2, delimiter=',')
+
+    global cc
+    cc=open('cc.csv','w',newline='')
+    # wf=open('output.csv','wb',encoding='utf-8')
+    global ccwriter
+    ccwriter = csv.writer(cc, delimiter=',')
+
+    global ss
+    ss=open('ss.csv','w',newline='')
+    # wf=open('output.csv','wb',encoding='utf-8')
+    global sswriter
+    sswriter = csv.writer(ss, delimiter=',',encoding='utf-8')
 
 def test(filename):
     tid=str(re.match(r'(.+)\.csv',filename).group(1))

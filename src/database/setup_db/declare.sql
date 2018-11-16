@@ -1,6 +1,9 @@
 -- 打开数据库
 -- psql -U dbms -d test12306
 
+-- drop database test12306;
+-- create database test12306;
+
 CREATE TABLE ID_Station_City(
     ISC_sid INTEGER not null, 
     ISC_sname CHAR(20) not null,
@@ -32,6 +35,7 @@ CREATE TABLE Train_Table(
     TT_price_ywx decimal not null,
     TT_price_rws decimal not null,
     TT_price_rwx decimal not null,
+    TT_count    int,
     primary key (TT_tid,TT_sid),
     foreign key (TT_tid) references Train(T_tid),
     foreign key (TT_sid) references ID_Station_City(ISC_sid)
@@ -108,10 +112,10 @@ CREATE TABLE Station_Connection(
 );
 
 CREATE TABLE City_Connection(
-    CC_depart_city int not null,
-    CC_arrive_city int not null,
+    CC_depart_city char(20) not null,
+    CC_arrive_city char(20) not null,
     CC_tid char(10) not null,
-    primary key (CC_depart_city,CC_arrive_city,CC_tid),
+    -- primary key (CC_depart_city,CC_arrive_city,CC_tid),
     foreign key (CC_tid) references Train(T_tid)
 );
 
@@ -129,6 +133,9 @@ COPY Train FROM '/mnt/hgfs/DB-m12306/data/train.csv' WITH DELIMITER ',' NULL AS 
 
 COPY Train_Table FROM '/mnt/hgfs/DB-m12306/data/output.csv' WITH DELIMITER ',' NULL AS '' CSV;
 
+COPY Station_Connection FROM '/mnt/hgfs/DB-m12306/data/ss.csv' WITH DELIMITER ',' NULL AS '' CSV;
+
+COPY City_Connection FROM '/mnt/hgfs/DB-m12306/data/cc.csv' WITH DELIMITER ',' NULL AS '' CSV;
 
 -- DROP TABLE ori_1095;
 

@@ -137,5 +137,6 @@
     "spellright.documentTypes": [
         "latex",
         "plaintext"
-    ]
+    ],
+    "python.linting.pylintEnabled": true
 }
