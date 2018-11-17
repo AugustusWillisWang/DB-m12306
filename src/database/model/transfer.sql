@@ -56,7 +56,7 @@ create table price_time(
 
 insert into price_time_de(PT_tid_De,PT_depart_sid,PT_depart_price_yz,PT_depart_time)
 select distinct TT_tid,TT_sid,TT_price_yz,TT_time 
-from Train_Table,City_Connection,ID_Station_City,Tarin 
+from Train_Table,City_Connection,ID_Station_City,Train 
 where TT_tid=CC_tid and ISC_cname ='北京' and TT_sid=ISC_sid and
 CC_depart_city='北京' and CC_arrive_city ='上海' 
 and TT_tid=T_tid and (((T_start_sid!=TT_sid) and TT_price_yz!=0 ) or T_start_sid=TT_sid);
@@ -66,8 +66,7 @@ insert into price_time_ar(PT_tid_ar,PT_arrive_sid,PT_arrive_price_yz,PT_arrive_t
 select distinct TT_tid,TT_sid,TT_price_yz,TT_time 
 from Train_Table,City_Connection,price_time_de,ID_Station_City
 where TT_tid=CC_tid and ISC_cname='上海'  and TT_sid=ISC_sid and PT_tid_de=TT_tid and 
-CC_depart_city='北京'and CC_arrive_city ='上海' 
-and TT_price_yz!=0;
+CC_depart_city='北京'and CC_arrive_city ='上海' and TT_price_yz!=0;
 
 insert into price_time(PT_tid,PT_depart_sid_f,PT_arrive_sid_f,PT_price_yz,PT_time,PT_seat_yz)
 SELECT distinct PT_tid_ar ,PT_depart_sid,PT_arrive_sid,PT_arrive_price_yz-PT_depart_price_yz,PT_arrive_time-PT_depart_time, ES_left_yz
@@ -153,7 +152,7 @@ insert into Transfer_ar_tf (TF_tid_ar_tf,TF_arrive_tf_sid,TF_arrive_tf_price_yz,
 TT_tid,TT_sid,TT_price_yz,TT_arrive_time,TF_tf_city_de,ES_left_yz
 from Train_Table,City_Connection,Transfer_de,ID_Station_City,Empty_Seat
 where TT_tid=CC_tid and ISC_cname=TF_tf_city_de and TT_sid=ISC_sid and TT_tid=TF_tid_de and 
-CC_depart_city='北京' and CC_arrive_city =TF_tf_city_de and TT_price_yz!=0  and ES_date='2018-11-17' and ES_tid=TT_tid and ES_current_sid=TT_sid;
+CC_depart_city='北京' and CC_arrive_city =TF_tf_city_de and TT_price_yz!=0  and ES_date='2018-11-18' and ES_tid=TT_tid and ES_current_sid=TT_sid;
 
 insert into Transfer_de_tf (TF_tid_ar_first,TF_tid_de_tf,TF_depart_tf_sid,TF_depart_tf_price_yz,TF_depart_tf_time,TF_tf_city_de_tf,TF_tf_date) select DISTINCT
 TF_tid_ar_tf,TT_tid,TT_sid,TT_price_yz,TT_depart_time,TF_tf_city_ar_tf,case when (TT_depart_time-TF_arrive_tf_time> interval '0 min') then 0 else 1 end 
@@ -171,11 +170,7 @@ and ((interval '60 min'<TT_depart_time-TF_arrive_tf_time
  and T_tid=TT_tid and (((T_start_sid!=TT_sid) and TT_price_yz!=0 ) or T_start_sid=TT_sid) ;
  
  
-insert into Transfer_ar (TF_tid_ar,TF_arrive_sid,TF_arrive_price_yz,TF_arrive_time,TF_city_ar,TF_seat_second_yz) select DISTINCT
-TT_tid,TT_sid,TT_price_yz,TT_arrive_time ,TF_tf_city_de_tf,ES_left_yz
-from Train_Table,City_Connection,Transfer_DE_tf,ID_Station_City,Empty_Seat
-where TT_tid=CC_tid and ISC_cname ='抚顺' and TT_sid=ISC_sid and TT_tid=TF_tid_de_tf and 
-CC_depart_city=TF_tf_city_de_tf and CC_arrive_city = '抚顺'  and TT_price_yz!=0  and ES_date='2018-11-18' and TT_sid=ES_current_sid;
+
 
 insert into Transfer_ar (TF_tid_ar,TF_arrive_sid,TF_arrive_price_yz,TF_arrive_time,TF_city_ar,TF_seat_second_yz) select DISTINCT
 TT_tid,TT_sid,TT_price_yz,TT_arrive_time ,TF_tf_city_de_tf,ES_left_yz
@@ -190,8 +185,10 @@ create table Transfer (
     TF_depart_tf_sid_f int ,
     TF_arrive_sid_f int ,
     TF_tf_city  char(20) ,
+    TF_price_first_yz decimal,
+    TF_price_second_yz decimal,
     TF_price_yz decimal,
-    TF_seat_frist_yz_f int ,
+    TF_seat_first_yz_f int ,
     TF_seat_second_yz_f int ,
     TF_depart_time_f time,
     TF_arrive_time_f time,
@@ -208,9 +205,10 @@ create table Transfer (
 
 );
 
-INSERT into Transfer(TF_first,TF_second,TF_depart_sid_f,TF_arrive_tf_sid_f,TF_depart_tf_sid_f,TF_arrive_sid_f,TF_tf_city,TF_price_yz ,TF_depart_time_f,TF_arrive_time_f,TF_tf_date_f,TF_seat_frist_yz_f,TF_seat_second_yz_f)
-SELECT DISTINCT TF_tid_ar_first,TF_tid_de_tf,TF_depart_sid,TF_arrive_tf_sid,TF_depart_tf_sid,TF_arrive_sid,TF_tf_city_de_tf,TF_arrive_tf_price_yz+ TF_arrive_price_yz-TF_depart_tf_price_yz-TF_depart_price_yz,
- TF_depart_time,TF_arrive_time ,TF_tf_date,TF_seat_first_yz,TF_seat_second_yz
+INSERT into Transfer(TF_first,TF_second,TF_depart_sid_f,TF_arrive_tf_sid_f,TF_depart_tf_sid_f,TF_arrive_sid_f,TF_tf_city,TF_price_first_yz,TF_price_second_yz,TF_price_yz,TF_depart_time_f,TF_arrive_time_f,TF_tf_date_f,TF_seat_first_yz_f,TF_seat_second_yz_f)
+SELECT DISTINCT TF_tid_ar_first,TF_tid_de_tf,TF_depart_sid,TF_arrive_tf_sid,TF_depart_tf_sid,TF_arrive_sid,TF_tf_city_de_tf,TF_arrive_tf_price_yz-TF_depart_price_yz,
+ TF_arrive_price_yz-TF_depart_tf_price_yz, TF_arrive_tf_price_yz-TF_depart_price_yz+TF_arrive_price_yz-TF_depart_tf_price_yz,TF_depart_time,TF_arrive_time,
+ TF_tf_date,TF_seat_first_yz,TF_seat_second_yz
 FROM Transfer_de,Transfer_ar_tf,Transfer_de_tf, Transfer_ar 
 WHERE TF_tid_de=TF_tid_ar_tf and TF_tid_ar_tf=TF_tid_ar_first and TF_tid_de_tf=TF_tid_ar and TF_tf_city_de=TF_tf_city_ar_tf and TF_tf_city_ar_tf=TF_tf_city_de_tf ;
 
@@ -218,24 +216,27 @@ WHERE TF_tid_de=TF_tid_ar_tf and TF_tid_ar_tf=TF_tid_ar_first and TF_tid_de_tf=T
 SELECT * from Transfer order by TF_price_yz,case when ((TF_arrive_time_f-TF_depart_time_f)>interval '0 min') then TF_arrive_time_f-TF_depart_time_f else TF_arrive_time_f-TF_depart_time_f + interval '24 hour' end ,
 TF_depart_time_f;
 
+
+
+
 select DISTINCT TF_first ,ID_Station_City1.ISC_sname as depart_sname,ID_Station_City2.ISC_sname as arrive_sname,Train_Table1.TT_depart_time,Train_Table2.TT_arrive_time,
-tf_price_yz,TF_seat_frist_yz_f,SC_crossday
+tf_price_first_yz,TF_seat_first_yz_f,SC_crossday
 from Train_Table as Train_Table1,ID_Station_City as ID_Station_City1, ID_Station_City as ID_Station_City2 ,Transfer,Train_Table as Train_Table2,Station_Connection
  where Train_Table1.TT_sid= TF_depart_sid_f and Train_Table2.TT_sid= TF_arrive_tf_sid_f
  and ID_Station_City1.ISC_sid=TF_depart_sid_f and  ID_Station_City2.ISC_sid=TF_arrive_tf_sid_f
  and SC_depart_sid=TF_depart_sid_f and  SC_arrive_sid=TF_arrive_tf_sid_f 
-    and Train_Table1.TT_tid='K915' and Train_Table2.TT_tid=Train_Table1.TT_tid and TF_first=Train_Table1.TT_tid and SC_tid =Train_Table1.TT_tid ;
+and Train_Table1.TT_tid='K915' and Train_Table2.TT_tid=Train_Table1.TT_tid and TF_first=Train_Table1.TT_tid and SC_tid =Train_Table1.TT_tid  and TF_tf_city='唐山';
 
 
 
 select DISTINCT TF_second ,ID_Station_City1.ISC_sname as depart_sname,ID_Station_City2.ISC_sname as arrive_sname,Train_Table1.TT_depart_time,Train_Table2.TT_arrive_time,
-tf_price_yz,TF_seat_frist_yz_f,SC_crossday
+tf_price_second_yz,TF_seat_second_yz_f,SC_crossday
 --,CC_day
 from Train_Table as Train_Table1,ID_Station_City as ID_Station_City1, ID_Station_City as ID_Station_City2 ,Transfer,Train_Table as Train_Table2,Station_Connection
 where Train_Table1.TT_sid= TF_depart_tf_sid_f and Train_Table2.TT_sid= TF_arrive_sid_f
 and ID_Station_City1.ISC_sid=TF_depart_tf_sid_f  and  ID_Station_City2.ISC_sid=TF_arrive_sid_f 
 and SC_depart_sid=TF_depart_tf_sid_f and SC_arrive_sid=TF_arrive_sid_f 
-and Train_Table1.TT_tid='K95' and Train_Table2.TT_tid=Train_Table1.TT_tid and TF_second=Train_Table1.TT_tid and SC_tid =Train_Table1.TT_tid  ;
+and Train_Table1.TT_tid='K95' and Train_Table2.TT_tid=Train_Table1.TT_tid and TF_second=Train_Table1.TT_tid and SC_tid =Train_Table1.TT_tid and TF_tf_city='唐山' ;
 
 
 

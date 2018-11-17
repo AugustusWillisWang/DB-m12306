@@ -230,7 +230,7 @@ WHERE
 
 -- 区间余票计算
 
-SELECT max(ES_left_yz) as left_yz
+SELECT min(ES_left_yz) as left_yz
 FROM Empty_Seat,
     Train_Table as TT1, 
     Train_Table as TT2, 
