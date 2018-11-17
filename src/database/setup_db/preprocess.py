@@ -106,7 +106,7 @@ def do_pre_process(ffile, filename):
     day_now=0
     while a<rlen:
         if(mtime.subtime(rlist[a][2], rlist[a-1][2])<0):
-            day_now=1
+            day_now=day_now+1
         crossday_list.append(day_now)
         a=a+1
 
