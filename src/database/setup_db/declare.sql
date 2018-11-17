@@ -16,6 +16,7 @@ CREATE TABLE Train(
     T_tid char(10) not null,
     T_start_sid int,
     T_end_sid int,
+    T_crossday int default 0
     primary key (T_tid),
     foreign key (T_start_sid) references ID_Station_City(ISC_sid),
     foreign key (T_end_sid) references ID_Station_City(ISC_sid)
@@ -61,7 +62,7 @@ CREATE TABLE Empty_Seat(
 );
 
 CREATE TABLE Passenger(
-    P_pid int unique,
+    P_pid bigint unique,
     P_phone bigint unique,
     P_pname char(20),
     P_uname char(30),
@@ -110,6 +111,7 @@ CREATE TABLE Station_Connection(
     SC_depart_sid int not null,
     SC_arrive_sid int not null,
     SC_tid char(10) not null,
+    SC_crossday int default 0,
     primary key (SC_depart_sid,SC_arrive_sid,SC_tid),
     foreign key (SC_depart_sid) references ID_Station_City(ISC_sid),
     foreign key (SC_arrive_sid) references ID_Station_City(ISC_sid),
@@ -120,6 +122,7 @@ CREATE TABLE City_Connection(
     CC_depart_city char(20) not null,
     CC_arrive_city char(20) not null,
     CC_tid char(10) not null,
+    CC_crossday int default 0,
     -- primary key (CC_depart_city,CC_arrive_city,CC_tid),
     foreign key (CC_tid) references Train(T_tid)
 );

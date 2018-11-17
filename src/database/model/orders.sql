@@ -81,9 +81,11 @@ WHERE O_pid=%pid;
 SELECT COUNT(*)+1
 FROM ORDERS;
 
--- 直接生成新用户号
-SELECT COUNT(*)+1
-FROM Passenger;
+-- -- 直接生成新用户号
+-- DO NOT USE THIS!
+-- pid是身份证号
+-- SELECT COUNT(*)+1
+-- FROM Passenger;
 
 
 -- 查询列车的空座位数

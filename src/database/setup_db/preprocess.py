@@ -4,6 +4,7 @@ import csv
 import os
 import argparse
 import city_projection
+import mtime
 
 testa = []
 testa.append(
@@ -83,6 +84,7 @@ def do_pre_process(ffile, filename):
     tid=str(re.match(r'(.+)\.csv',filename).group(1))
     print(tid)
     rlist=[]
+    crossday_list=[0]
     first=1
     for row in ffile:
         if first:
@@ -95,14 +97,26 @@ def do_pre_process(ffile, filename):
         rlist.append(res)
         writer.writerow(res)
 
+    #Train
     rlen=len(rlist)
     writer2.writerow([tid,rlist[0][1],rlist[rlen-1][1]])#tid,startsid,endsid
+
+    #Crossday
+    a=1
+    day_now=0
+    while a<rlen:
+        if(mtime.subtime(rlist[a][2], rlist[a-1][2])<0):
+            day_now=1
+        crossday_list.append(day_now)
+        a=a+1
+
+    #CC, SS
     a=0
     while a<rlen:
         b=a+1
         while b<rlen:
-            sswriter.writerow([rlist[a][1],rlist[b][1],tid])
-            ccwriter.writerow([city_projection.sid_to_cname(rlist[a][1]),city_projection.sid_to_cname(rlist[b][1]),tid])
+            sswriter.writerow([rlist[a][1],rlist[b][1],tid,crossday_list[b]-crossday_list[a]])
+            ccwriter.writerow([city_projection.sid_to_cname(rlist[a][1]),city_projection.sid_to_cname(rlist[b][1]),tid,crossday_list[b]-crossday_list[a]])
             b=b+1
         a=a+1
 
@@ -130,7 +144,7 @@ def prepare_write():
     ss=open('ss.csv','w',newline='')
     # wf=open('output.csv','wb',encoding='utf-8')
     global sswriter
-    sswriter = csv.writer(ss, delimiter=',',encoding='utf-8')
+    sswriter = csv.writer(ss, delimiter=',')
 
 def test(filename):
     tid=str(re.match(r'(.+)\.csv',filename).group(1))
