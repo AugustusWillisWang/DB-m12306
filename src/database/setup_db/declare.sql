@@ -16,7 +16,6 @@ CREATE TABLE Train(
     T_tid char(10) not null,
     T_start_sid int,
     T_end_sid int,
-    T_crossday int default 0
     primary key (T_tid),
     foreign key (T_start_sid) references ID_Station_City(ISC_sid),
     foreign key (T_end_sid) references ID_Station_City(ISC_sid)
