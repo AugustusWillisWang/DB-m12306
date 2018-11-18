@@ -20,7 +20,7 @@ VALUES(
 
 INSERT INTO Passenger
 VALUES(
-    42,
+    42999999999999999999,
     18818881888,
     'Dio',
     '迪奥',

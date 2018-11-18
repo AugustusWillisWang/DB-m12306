@@ -2,6 +2,7 @@ select DISTINCT TT_tid,ISC_sname,TT_arrive_time,TT_depart_time,TT_time,TT_price_
 TT_price_yws,ES_left_yws,TT_price_ywz,ES_left_ywz,TT_price_ywx,ES_left_ywx,TT_price_rz,ES_left_rz,TT_price_rws,ES_left_rws,TT_price_rwx,ES_left_rwx,
 ES_date,ES_left_yz
  from Train_Table,Empty_Seat,ID_Station_City where TT_sid=ES_current_sid AND tt_sid=ISC_sid and TT_tid='G3' and ES_date='2018-11-17' ORDER by TT_depart_time;
+ 
 drop table price_time_de;
 drop table price_time_ar;
 drop table price_time;
@@ -215,6 +216,20 @@ WHERE TF_tid_de=TF_tid_ar_tf and TF_tid_ar_tf=TF_tid_ar_first and TF_tid_de_tf=T
 ........................................................................................................................
 SELECT * from Transfer order by TF_price_yz,case when ((TF_arrive_time_f-TF_depart_time_f)>interval '0 min') then TF_arrive_time_f-TF_depart_time_f else TF_arrive_time_f-TF_depart_time_f + interval '24 hour' end ,
 TF_depart_time_f;
+
+
+SELECT DISTINCT TF_first, TF_second,ID_Station_City1.ISC_sname,ID_Station_City2.ISC_sname,ID_Station_City3.ISC_sname,ID_Station_City4.ISC_sname,
+TF_tf_city,TF_price_first_yz,TF_price_second_yz,TF_price_yz,TF_depart_time_f,TF_arrive_time_f,TF_tf_date_f,
+case when ((TF_arrive_time_f-TF_depart_time_f)>interval '0 min') then TF_arrive_time_f-TF_depart_time_f 
+else TF_arrive_time_f-TF_depart_time_f + interval '24 hour' end
+from Transfer,ID_Station_City as ID_Station_City1,ID_Station_City as ID_Station_City2,
+ID_Station_City as ID_Station_City3,ID_Station_City as ID_Station_City4
+WHERE ID_Station_City1.ISC_sid= TF_depart_sid_f and  ID_Station_City2.ISC_sid= TF_arrive_tf_sid_f
+and  ID_Station_City3.ISC_sid=  TF_depart_tf_sid_f and  ID_Station_City4.ISC_sid= TF_arrive_sid_f 
+order by TF_price_yz,case when ((TF_arrive_time_f-TF_depart_time_f)>interval '0 min') then TF_arrive_time_f-TF_depart_time_f
+ else TF_arrive_time_f-TF_depart_time_f + interval '24 hour' end ,
+TF_depart_time_f;
+
 ...............................................................................................................................
 
 
