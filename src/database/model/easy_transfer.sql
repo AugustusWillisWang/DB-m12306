@@ -42,3 +42,23 @@ ORDER by TT_depart_time;
 
 select DISTINCT TT_tid,ISC_sname,TT_arrive_time,TT_depart_time,TT_time,ES_date, $inputtype
 from Train_Table,Empty_Seat,ID_Station_City where TT_sid=ES_current_sid AND tt_sid=ISC_sid and TT_tid='$train' and ES_date='$inputdate' ORDER by TT_depart_time;
+
+SELECT min(ES_left_yz) as left_yz
+FROM Empty_Seat,
+    Train_Table as TT1, 
+    Train_Table as TT2, 
+    Train_Table as TT3
+WHERE 
+    ES_tid=$tid and
+    ES_tid=TT1.TT_tid and
+    ES_tid=TT2.TT_tid and
+    ES_tid=TT3.TT_tid and
+    TT1.TT_sid=$depart_sid and
+    TT2.TT_sid=$arrive_sid and
+    TT3.TT_sid=ES_current_sid and
+    (TT3.TT_count>=TT1.TT_count) and
+    (TT3.TT_count<TT2.TT_count);
+
+
+select DISTINCT TT_tid,ISC_sname,TT_arrive_time,TT_depart_time,TT_time,ES_date, $inputtype
+from Train_Table,Empty_Seat,ID_Station_City where TT_sid=ES_current_sid AND tt_sid=ISC_sid and TT_tid='$train' and ES_date='$inputdate' ORDER by TT_depart_time;
