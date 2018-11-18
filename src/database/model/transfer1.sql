@@ -158,7 +158,7 @@ insert into Transfer_de_tf (TF_tid_ar_first,TF_tid_de_tf,TF_depart_tf_sid,TF_dep
 TF_tid_ar_tf,TT_tid,TT_sid,TT_price_yz,TT_depart_time,TF_tf_city_ar_tf,case when (TT_depart_time-TF_arrive_tf_time> interval '0 min') then 0 else 1 end 
 from Train_Table,City_Connection,Transfer_ar_tf,ID_Station_City,Train
 where TT_tid=CC_tid and ISC_cname=TF_tf_city_ar_tf and TT_sid=ISC_sid  and 
-CC_depart_city=TF_tf_city_ar_tf and CC_arrive_city ='大连' 
+CC_depart_city=TF_tf_city_ar_tf and CC_arrive_city ='上海' 
 and( (TF_arrive_tf_sid=tt_sid 
 and ((interval '60 min'<TT_depart_time-TF_arrive_tf_time 
   AND interval '240 min'>TT_depart_time-TF_arrive_tf_time)or (interval '60 min'<TT_depart_time-TF_arrive_tf_time+interval '24 hour'
@@ -175,7 +175,7 @@ and ((interval '60 min'<TT_depart_time-TF_arrive_tf_time
 insert into Transfer_ar (TF_tid_ar,TF_arrive_sid,TF_arrive_price_yz,TF_arrive_time,TF_city_ar) select DISTINCT
 TT_tid,TT_sid,TT_price_yz,TT_arrive_time ,TF_tf_city_de_tf
 from Train_Table,Transfer_DE_tf,ID_Station_City
-where  ISC_cname ='大连' and TT_sid=ISC_sid and TT_tid=TF_tid_de_tf and TT_price_yz!=0  ;
+where  ISC_cname ='上海' and TT_sid=ISC_sid and TT_tid=TF_tid_de_tf and TT_price_yz!=0  ;
 
 create table Transfer (
     TF_first char(10),
