@@ -1,0 +1,35 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        body {background-size: 100%}
+        form { margin:0px auto;
+                margin-top:150px;}
+    </style>
+</head> 
+<body background="purchase_background.jpg">
+    <p style="text-align:center;font-size:25;margin-top:40px">
+        <strong>车次查询</strong>
+    </p><br>
+    <div>     
+            <form  style="text-align:center" action="trainapp.php" method="post">
+                    车次:<br>
+                    <input type="text" name="train" style="width:300px;height:35px" maxlength="20"><br>
+                    日期:<br>
+                    <input type="date" name="date" style="width:300px;height:35px" maxlength="20"><br>
+                    <input type="radio" name="type" value="hardseat" checked="checked">硬座&nbsp;
+                    <input type="radio" name="type" value="softseat" >软座<br>
+                    <input type="radio" name="type" value="hardbed_top" >硬卧上&nbsp;
+                    <input type="radio" name="type" value="hardbed_middle" >硬卧中&nbsp;
+                    <input type="radio" name="type" value="hardbed_bottom" >硬卧下<br>
+                    <input type="radio" name="type" value="softbed_top" >软卧上&nbsp;
+                    <input type="radio" name="type" value="softbed_bottom" >软卧下
+                    <br><br>
+                    <input type="submit" value="查询"><br>
+            </form>        
+    </div>
+    <p style="text-align:center;font-size:15;margin-top:40px">
+        <a href="trainadvanced.html">高级</a>
+    </p>   
+</body>
+</html>

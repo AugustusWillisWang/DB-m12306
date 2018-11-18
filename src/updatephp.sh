@@ -1,0 +1,1 @@
+sudo cp /mnt/hgfs/DB-m12306/src/php/* /var/www/html

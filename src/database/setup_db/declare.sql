@@ -64,8 +64,9 @@ CREATE TABLE Passenger(
     P_pid bigint unique,
     P_phone bigint unique,
     P_pname char(20),
-    P_uname char(30),
+    P_uname char(30) unique,
     P_credit_card bigint,
+    P_password char(30),
     primary key (P_pid)
 );
 

@@ -33,9 +33,12 @@ select DISTINCT
     ES_date,
     ES_left_yz
 FROM Train_Table,Empty_Seat,ID_Station_City 
-WHERE TT_sid=ES_current_sid AND 
+WHERE TT_sid=ES_current_sid AND
+    TT_tid=ES_tid AND 
     tt_sid=ISC_sid AND 
     TT_tid='G3' AND 
     ES_date='2018-11-17' 
 ORDER by TT_depart_time;
 
+select DISTINCT TT_tid,ISC_sname,TT_arrive_time,TT_depart_time,TT_time,ES_date, $inputtype
+from Train_Table,Empty_Seat,ID_Station_City where TT_sid=ES_current_sid AND tt_sid=ISC_sid and TT_tid='$train' and ES_date='$inputdate' ORDER by TT_depart_time;
