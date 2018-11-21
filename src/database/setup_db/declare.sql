@@ -72,7 +72,7 @@ CREATE TABLE Passenger(
 
 CREATE TABLE Orders(
     O_oid int not null,
-    O_pid int not null,
+    O_pid bigint not null,
 
     O_order_date date not null default CURRENT_DATE,
 

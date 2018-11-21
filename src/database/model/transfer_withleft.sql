@@ -446,7 +446,6 @@ GROUP BY
     RES.
     RES.
     RES.
-
 ;
 
 SELECT
