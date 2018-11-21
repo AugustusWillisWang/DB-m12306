@@ -4,7 +4,7 @@
 -- drop database test12306;
 -- create database test12306;
 
-CREATE TYPE seat_type AS ENUM ('yz', 'rz', 'yws','ywz','ywx','rws','rwz','rwx');
+CREATE TYPE seat_type AS ENUM ('hardseat', 'softseat', 'hardbed_top','hardbed_middle','hardbed_bottom','softbed_top','softbed_bottom');
 
 CREATE TABLE ID_Station_City(
     ISC_sid INTEGER not null, 
