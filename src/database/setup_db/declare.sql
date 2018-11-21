@@ -4,6 +4,8 @@
 -- drop database test12306;
 -- create database test12306;
 
+CREATE TYPE seat_type AS ENUM ('yz', 'rz', 'yws','ywz','ywx','rws','rwz','rwx');
+
 CREATE TABLE ID_Station_City(
     ISC_sid INTEGER not null, 
     ISC_sname CHAR(20) not null,
@@ -86,12 +88,14 @@ CREATE TABLE Orders(
     O_tid1 char(10) not null,
     O_start_sid1 int not null,
     O_arrive_sid1 int not null,
+    O_type1 seat_type not null,
 
     O_date2 date,
     O_time2 time,
     O_tid2 char(10),
     O_start_sid2 int,
     O_arrive_sid2 int,
+    O_type2 seat_type,
 
     O_valid int default 1,
     primary key (O_oid),
