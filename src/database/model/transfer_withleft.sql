@@ -618,6 +618,7 @@ SELECT
     RES.price1,
     RES.price2,
     RES.price_total,
+    RES.transfer_day,
     min(ES1.ES_left_yz) as left_yz1,
     min(ES2.ES_left_yz) as left_yz2
     
@@ -643,7 +644,8 @@ SELECT
     SC2.SC_tid as tid2,
     TT2.TT_price_yz-TT1.TT_price_yz as price1,
     TT4.TT_price_yz-TT3.TT_price_yz as price2,
-    TT4.TT_price_yz-TT3.TT_price_yz+TT2.TT_price_yz-TT1.TT_price_yz as price_total
+    TT4.TT_price_yz-TT3.TT_price_yz+TT2.TT_price_yz-TT1.TT_price_yz as price_total,
+    case when (TT4.TT_depart_time-TT3.TT_arrive_time> interval '0 min') then 0 else 1 end  as transfer_day
 FROM 
     Station_Connection as SC1,
     Station_Connection as SC2,
@@ -698,13 +700,13 @@ WHERE
             and
             (
                 (
-                    (interval '60 min'<TT3.TT_depart_time-TT2.TT_arrive_time) and
-                    (interval '240 min'>TT3.TT_depart_time-TT2.TT_arrive_time)
+                    (interval '60 min'<TT4.TT_depart_time-TT3.TT_arrive_time) and
+                    (interval '240 min'>TT4.TT_depart_time-TT3.TT_arrive_time)
                 )
                 or
                 (
-                    (interval '60 min'<interval '24 hour'+TT3.TT_depart_time-TT2.TT_arrive_time) and
-                    (interval '240 min'>interval '24 hour'+TT3.TT_depart_time-TT2.TT_arrive_time)
+                    (interval '60 min'<interval '24 hour'+TT4.TT_depart_time-TT3.TT_arrive_time) and
+                    (interval '240 min'>interval '24 hour'+TT4.TT_depart_time-TT3.TT_arrive_time)
                 )
             )
         )
@@ -716,13 +718,13 @@ WHERE
             and
             (
                 (
-                    (interval '120 min'<TT3.TT_depart_time-TT2.TT_arrive_time) and
-                    (interval '240 min'>TT3.TT_depart_time-TT2.TT_arrive_time)
+                    (interval '120 min'<TT4.TT_depart_time-TT3.TT_arrive_time) and
+                    (interval '240 min'>TT4.TT_depart_time-TT3.TT_arrive_time)
                 )
                 or
                 (
-                    (interval '120 min'<interval '24 hour'+TT3.TT_depart_time-TT2.TT_arrive_time) and
-                    (interval '240 min'>interval '24 hour'+TT3.TT_depart_time-TT2.TT_arrive_time)
+                    (interval '120 min'<interval '24 hour'+TT4.TT_depart_time-TT3.TT_arrive_time) and
+                    (interval '240 min'>interval '24 hour'+TT4.TT_depart_time-TT3.TT_arrive_time)
                 )
             )
         )
@@ -759,13 +761,13 @@ WHERE
 ORDER BY 
     price_total,
     case 
-        when ((TT4.TT_arrive_time-TT1.Tt_depart_time)>interval '0 min') 
-        then TT4.TT_arrive_time-TT1.Tt_depart_time
-        else TT4.TT_arrive_time-TT1.Tt_depart_time + interval '24 hour' 
+        when ((TT2.TT_arrive_time-TT1.Tt_depart_time)>interval '0 min') 
+        then TT2.TT_arrive_time-TT1.Tt_depart_time
+        else TT2.TT_arrive_time-TT1.Tt_depart_time + interval '24 hour' 
         end,
     TT1.Tt_depart_time
 
-
+    LIMIT 20
     ) as RES
 WHERE 
     ES1.ES_tid=RES.tid1 and
@@ -797,5 +799,6 @@ GROUP BY
     RES.tid2,
     RES.price1,
     RES.price2,
-    RES.price_total
+    RES.price_total,
+    RES.transfer_day
 ;
