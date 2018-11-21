@@ -120,6 +120,7 @@ SELECT
     ES_left_rwx
 FROM Empty_Seat, ID_Station_City
 WHERE ES_tid='1095' and
+    ES_date='2018-11-22' and
     ID_Station_City.ISC_sid=ES_current_sid;
 
 
@@ -157,6 +158,7 @@ WHERE
     TT1.TT_sid=$depart_sid and
     TT2.TT_sid=$arrive_sid and
     TT3.TT_sid=ES_current_sid and
+    ES_date='2018-11-22' and
     (TT3.TT_count>=TT1.TT_count) and
     (TT3.TT_count<TT2.TT_count);
 
@@ -172,6 +174,7 @@ WHERE
     TT1.TT_sid=$depart_sid and
     TT2.TT_sid=$arrive_sid and
     TT3.TT_sid=ES_current_sid and
+    ES_date='2018-11-22' and
     (TT3.TT_count>=TT1.TT_count) and
     (TT3.TT_count<TT2.TT_count);
 
@@ -187,6 +190,7 @@ WHERE
     TT1.TT_sid=2069 and
     TT2.TT_sid=1699 and
     ES_current_sid=TT3.TT_sid and
+    ES_date='2018-11-22' and
     (TT3.TT_count>=TT1.TT_count) and
     (TT3.TT_count<TT2.TT_count);
 
@@ -205,6 +209,7 @@ WHERE
     TT1.TT_sid=$depart_sid and
     TT2.TT_sid=$arrive_sid and
     TT3.TT_sid=ES_current_sid and
+    ES_date='2018-11-22' and
     (TT3.TT_count>=TT1.TT_count) and
     (TT3.TT_count<TT2.TT_count) and
     (ES_left_yz=0);
@@ -224,6 +229,7 @@ WHERE
     TT1.TT_sid=2069 and
     TT2.TT_sid=1699 and
     TT3.TT_sid=ES_current_sid and
+    ES_date='2018-11-22' and
     (TT3.TT_count>=TT1.TT_count) and
     (TT3.TT_count<TT2.TT_count) and
     (ES_left_yz=0);
@@ -243,6 +249,7 @@ WHERE
     TT1.TT_sid=$depart_sid and
     TT2.TT_sid=$arrive_sid and
     TT3.TT_sid=ES_current_sid and
+    ES_date='2018-11-22' and
     (TT3.TT_count>=TT1.TT_count) and
     (TT3.TT_count<TT2.TT_count);
 
@@ -261,6 +268,7 @@ WHERE
     ES_tid=TT3.TT_tid and
     TT1.TT_sid=798 and
     TT2.TT_sid=807 and
+    ES_date='2018-11-22' and
     TT3.TT_sid=ES_current_sid and
     (TT3.TT_count>=TT1.TT_count) and
     (TT3.TT_count<TT2.TT_count);
