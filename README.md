@@ -25,9 +25,10 @@ Copyright (C) 2018 Team WLC(Wireless LAN Controller)
         - [2.3.7. Station_Connection 车站联通表SC_](#237-station_connection-车站联通表sc_)
         - [2.3.8. City_Connection 城市联通表CC_](#238-city_connection-城市联通表cc_)
     - [2.4. 范式细化，分析](#24-范式细化分析)
-        - [第一范式](#第一范式)
-        - [第二范式](#第二范式)
-        - [第三范式](#第三范式)
+        - [2.4.1. 第一范式](#241-第一范式)
+        - [2.4.2. 第二范式](#242-第二范式)
+        - [2.4.3. 第三范式](#243-第三范式)
+            - [2.4.3.1. BCNF范式](#2431-bcnf范式)
 - [3. 查询与刷新函数](#3-查询与刷新函数)
     - [3.1. 特殊类型定义](#31-特殊类型定义)
     - [3.2. SQL查询语句模板](#32-sql查询语句模板)
@@ -59,7 +60,6 @@ Copyright (C) 2018 Team WLC(Wireless LAN Controller)
     - [4.3. LIMIT 语句的引入](#43-limit-语句的引入)
     - [4.4. 其他查询语句](#44-其他查询语句)
 - [5. 前端实现](#5-前端实现)
-    - [5.1. 前端与数据库的连接 -->](#51-前端与数据库的连接---)
 - [6. ACKNOWLEDGE](#6-acknowledge)
 
 <!-- /TOC -->
@@ -118,6 +118,8 @@ orders.sql              生成/取消订单
 
 ## 2.2. ER图
 
+![ER.png](ER.png)
+
 ## 2.3. 关系模式
 
 具体到代码级别的定义, 可以参见`declare.sql` 
@@ -163,7 +165,6 @@ TT_count|当前站是列车的第几站|int|用于换乘计算
 -|-|-|-
 ES_tid|车次号|char(10)|identifier
 ES_current_sid|当前车站id|int|identifier
-ES_next_sid|下一个车站id|int|identifier
 ES_date|日期|date|identifier
 ES_left_yz|硬座剩余座位数|int|初始化时置为5
 ES_left_rz|软座剩余座位数|int|初始化时置为5
@@ -217,6 +218,8 @@ O_start_sid2|第二列车的始发站|int|
 O_arrive_sid2|第二列车的终到站|int|
 O_valid|订单有效|int|default 1
 
+附注: 在设计的过程中这个表支持同时包含两次列车(换乘), 但在实际设计中为了操作便利, 在一个订单中只包含一列车, 即一次换乘需要产生两个订单.
+
 ### 2.3.7. Station_Connection 车站联通表SC_
 
 列名|内容|数据种类|附注
@@ -246,7 +249,9 @@ CC_crossday|列车开行过程中跨日情况记录|int|default 0
 
 > ref: https://www.ibm.com/developerworks/cn/data/library/techarticles/dm-0605jiangt/index.html
 
-### 第一范式
+本数据库实现满足第二范式的要求, 经少量改动可以满足第三范式的要求.
+
+### 2.4.1. 第一范式
 
 1. 因为这张表中字段都是单一属性的，不可再分；
 2. 而且每一行的记录都是没有重复的；
@@ -255,26 +260,128 @@ CC_crossday|列车开行过程中跨日情况记录|int|default 0
 
 > 事实上在当前所有的关系数据库管理系统（DBMS）中，都已经在建表的时候强制满足第一范式。
 
-### 第二范式
+### 2.4.2. 第二范式
 
 ref: https://zhuanlan.zhihu.com/p/20028672
 
-TODO
+> 根据2NF的定义，判断的依据实际上就是看数据表中是否存在非主属性对于码的部分函数依赖
 
 消除部分依赖: 本数据库系统中通过将Users实体, City-ID-Station关系单独建表来防止部分依赖.
+
+列出各个表中的主键, 主属性, 非主属性如下, 这里只列出主属性不唯一的情况:
+
+Train_Table:
+
+* TT_tid 主属性
+* TT_sid 主属性
+* TT_depart_time
+* TT_arrive_time
+* TT_price_yz
+* TT_price_rz
+* TT_price_yws
+* TT_price_ywz
+* TT_price_ywx
+* TT_price_rws
+* TT_price_rwx
+* TT_count
+
+非主属性由TT_tid与TT_sid联合确定, 不存在部分函数依赖关系.
+
+Empty_Seat:
+
+* ES_tid
+* ES_current_sid
+* ES_date
+* ES_left_yz
+* ES_left_rz
+* ES_left_yws
+* ES_left_ywz
+* ES_left_ywx
+* ES_left_rws
+* ES_left_rwx
+
+非主属性由ES_yid与ES_current_sid联合确定, 不存在部分函数依赖关系.
+
+Station_Connection:
+
+* SC_depart_sid 主属性
+* SC_arrive_sid 主属性
+* SC_tid
+* SC_crossday
+
+站之间的联通情况需要由出发站和到达站确定, 因此不存在部分函数依赖.
+
+综上, 不存在非主属性对主键的部分函数依赖, 数据库满足第二范式.
+
 <!-- 
 第一步：找出数据表中所有的码。
 第二步：根据第一步所得到的码，找出所有的主属性。
 第三步：数据表中，除去所有的主属性，剩下的就都是非主属性了。
 第四步：查看是否存在非主属性对码的部分函数依赖。 -->
 
-### 第三范式
+### 2.4.3. 第三范式
 
-消除传递依赖:
+观察是否存在非主属性对于键的传递函数依赖:
 
+ID_Station_City: 
+
+存在传递函数依赖: ISC_sid->ISC_sname->ISC_cname
+
+因为已知站名可以推出对应的城市名.
+
+如果要使得数据库满足第三范式, 需要将ID_Station_City表拆分为:
+
+table1:
+
+* ISC_sid(主键)
+* ISC_sname
+
+table2:
+
+* ISC_sname(主键)
+* ISC_cname
+
+Train: 
+
+不存在传递函数依赖
+
+Train_Table:
+
+不存在传递函数依赖
+
+Empty_Seat:
+
+不存在传递函数依赖
+
+Passenger:
+
+* P_pid 主属性
+* P_phone 可以作为主键: 主属性
+* P_pname
+* P_uname
+* P_credit_card
+* P_password
+
+余下部分不存在传递函数依赖
+
+Orders:
+
+为了支持单订单多列车, 存在少量数据冗余, 但是在一个订单中只有单列车的情况下基本可以不考虑.
+
+Station_Connection:
+
+不存在传递函数依赖
+
+<!-- 
 1. 数据冗余：避免了重复的值
-2. 更新异常：不存在重复的冗余信息，修改时需要无需修改多条记录，也不会出现数据不一致的情况；
+2. 更新异常：不存在重复的冗余信息，修改时需要无需修改多条记录，也不会出现数据不一致的情况； -->
 <!-- 3. 删除异常： -->
+
+#### 2.4.3.1. BCNF范式
+
+存在着主属性对于候选键的部分函数依赖与传递函数依赖. 因此不符合BCNF范式.
+
+比如Passenger表中的P_pid与P_phone属性.
 
 ***
 
@@ -731,32 +838,35 @@ WHERE
 ### 3.3.2. 取消订单与恢复余票
 
 ```sql
-UPDATE Orders 
-SET O_valid=0 
-WHERE O_oid=[oid]; 
+UPDATE Orders
+SET O_valid=0
+WHERE O_oid=[O_ID];
+
+SELECT O_type1 FROM ORDERS WHERE O_oid=[OID];
 
 UPDATE Empty_Seat
 SET ES_left_yz=ES_left_yz+1
-FROM Train_Table as TT1, Train_Table as TT2, Train_Table as TT3
+FROM Train_Table as TT1, Train_Table as TT2, Train_Table as TT3, Orders
 WHERE 
-    ES_tid=$tid and
+    ES_tid=O_tid1 and
     ES_tid=TT1.TT_tid and
     ES_tid=TT2.TT_tid and
     ES_tid=TT3.TT_tid and
-    TT1.TT_sid=[depart_sid] and
-    TT2.TT_sid=[arrive_sid] and
+    TT1.TT_sid=$O_start_sid1 and
+    TT2.TT_sid=$O_arrive_sid1 and
     TT3.TT_sid=ES_current_sid and
-    ES_date=[date] and
+    ES_date=[DATE] and
     (TT3.TT_count>=TT1.TT_count) and
-    (TT3.TT_count<TT2.TT_count);
+    (TT3.TT_count<TT2.TT_count)and
+    O_oid=[OID]
+
+;
 ```
 
 参数:
 
-1. [oid] 订单id
-1. [depart_sid] 出发站id
-1. [arrive_sid] 到达站id
-1. [date] 日期
+1. [OID] 订单id
+1. [DATE] 日期
 
 ### 3.3.3. 开放新一天的购票
 
@@ -839,10 +949,6 @@ GROUP BY
 ***
 
 # 5. 前端实现
-
-<!-- ## 5.1. 前端技术栈
-
-## 5.1. 前端与数据库的连接 -->
 
 前端通过php语句调用sql查询语句来访问数据库. 尽管从软件工程的角度上来讲, 应该使用MVC模型为佳. 但是考虑到小组成员都是第一次接触PHP, 因此没有采用这些面向对象的软件开发模型.
 

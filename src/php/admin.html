@@ -1,16 +1,16 @@
 <html>
 <head>
-    <meta charset="UTF-8">
+        <meta charset="UTF-8">
     <style type="text/css">
         body {background-size: 100%}
         form { margin:0px auto;
-                margin-top:160px;}
+                margin-top:80px;}
         a:link,a:visited{
             text-decoration:none;  /*超链接无下划线*/
             }
         div { padding:18px } 
         img { border:0px; vertical-align:middle; padding:0px; margin:0px; } 
-        button { font-family:"Arial", "Tahoma", "微软雅黑", "雅黑"; border:0;
+        input, button { font-family:"Arial", "Tahoma", "微软雅黑", "雅黑"; border:0;
         vertical-align:middle; margin:8px; line-height:18px; font-size:18px } 
         .btns {width:136px; height:33px; background:url("button2.jpg") no-repeat left top; color:#FFF; }
         .btn{width:136px;height:33px;line-height:18px;font-size:18px;
@@ -46,29 +46,33 @@ ul {
     }
     </style>
 </head> 
-<body background="login_background.jpg">
+<body background="control_background.jpg">
         <ul>
                 <li><a href="111.html">主页</a></li>
                 <li><a href="#news">其他</a></li>
                 <li style="float:right"><a class="active" href="signup.html">注册</a></li>
                 <li style="float:right"><a class="active" href="login.html">登录</a></li>
-            </ul>    
-    <p style="text-align:center;font-size:25;margin-top:60px">
-        <strong>用户登录</strong>
+        </ul>    
+    <p style="text-align:center;font-size:40;margin-top:60px">
+        <strong>后台</strong>
     </p><br>
-    <div>     
-            <form  style="text-align:center" action="loginapp.php" method="post">
-                    用户名:<br>
-                    <input type="text" name="username" style="width:300px;height:35px" maxlength="20">
-                    <br>
-                    密码:<br>
-                    <input type="password" name="code" style="width:300px;height:35px">
-                    <br><br>
-                    <input type="submit" class="btns" onmouseover="this.style.backgroundPosition='left -36px'"
-                    onmouseout="this.style.backgroundPosition='left top'" value="登录">
-                    <input type="submit" class="btns" onmouseover="this.style.backgroundPosition='left -36px'"
-                    onmouseout="this.style.backgroundPosition='left top'" value="忘记密码">
-            </form>        
-    </div>
+    <p style="text-align:center;font-size:20;">
+    <a href="adminapp.php?instruction=1">
+            <input type="button" class="btn" value="总订单数" onmouseover="this.style.backgroundPosition='left -36px'"
+            onmouseout="this.style.backgroundPosition='left top'" />
+    </a><br>
+    <a href="adminapp.php?instruction=2">
+        <input type="button" class="btn" value="总票价" onmouseover="this.style.backgroundPosition='left -36px'"
+                                onmouseout="this.style.backgroundPosition='left top'" />
+    </a><br>
+    <a href="adminapp.php?instruction=3">
+            <input type="button" class="btn" value="热点车次" onmouseover="this.style.backgroundPosition='left -36px'"
+            onmouseout="this.style.backgroundPosition='left top'" />
+    </a><br>
+    <a href="adminapp.php?instruction=4">
+            <input type="button" class="btn" value="用户列表" onmouseover="this.style.backgroundPosition='left -36px'"
+            onmouseout="this.style.backgroundPosition='left top'" />
+    </a><br>
+    </p><br>
 </body>
 </html>
